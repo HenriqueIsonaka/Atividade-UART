@@ -74,10 +74,10 @@ static void uart0_cb(const struct device *dev, void *user_data) {
         if (buffer[2] != 0xFF && buffer[2] != 0x00) {
             CHECK = CHECK + 0b100;
         }
-        if (buffer[3] != 0xFF || buffer[3] != 0x00) {
+        if (buffer[3] != 0xFF && buffer[3] != 0x00) {
             CHECK = CHECK + 0b1000;
         }
-        if (buffer[4] != 0xFF || buffer[4] != 0x00) {
+        if (buffer[4] != 0xFF && buffer[4] != 0x00) {
             CHECK = CHECK + 0b10000;
         }
         if(buffer[0] != ID_KL25Z) {
@@ -113,20 +113,20 @@ static void uart0_cb(const struct device *dev, void *user_data) {
                         gpio_pin_set_dt(&LEDs[i], 1);
                     }
                 }
-                k_msleep(1000);
+                k_busy_wait(1000000);
                 for(i=0; i<NUM_CORES; i++) {
                     if(cores[i] == 1) {
                         gpio_pin_set_dt(&LEDs[i], 0);
                     }
                 }
-            } else if(buffer[4] == 4) {
+            } else if(buffer[4] == 5) {
                 int i;
                 for(i=0; i<NUM_CORES; i++) {
                     if(cores[i] == 1) {
                         gpio_pin_set_dt(&LEDs[i], 1);
                     }
                 }
-                k_msleep(2000);
+                k_busy_wait(2000000);
                 for(i=0; i<NUM_CORES; i++) {
                     if(cores[i] == 1) {
                         gpio_pin_set_dt(&LEDs[i], 0);
